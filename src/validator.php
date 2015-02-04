@@ -25,7 +25,7 @@ class validator
     public function __construct($valid_array = '')
     {
         if (empty($valid_array)) {
-            $valid_array = Ap_Registry::get('params');
+            $valid_array = array_merge($_POST, $_GET);
         }
         $this->data = $valid_array;
         $this->validator = new validatorLib();
@@ -147,18 +147,20 @@ class validator
      */
     public function check($isBreak = TRUE)
     {
-        $break = $isBreak ? 2 : 1;
         foreach ($this->rules as $field => $rules) {
             $field = str_replace('[]', '', $field); //如果有些变量是带[]，去掉键值中的[]。
-            $value = $this->data[$field]; // 得到验证字段值。
+            $value = isset($this->data[$field]) ? $this->data[$field] : NULL; // 得到验证字段值。
             foreach ($rules as $rule) { //保存是验证规则数组。
                 list($ruleName, $params) = $rule; //规则被定义 array($rule, $params) 这种格式。
                 array_unshift($params, $value);
-                $checkResult = $this->singleCheck($ruleName, $params, $error_name); //$error_name执行完以后此变量会被赋值。
+                $checkResult = $this->singleCheck($ruleName, $params);
                 list($result, $errorName) = $checkResult;
                 if (!$result) {
                     $this->error($field, $errorName, $params);
-                    break $break;
+                    if($isBreak){
+                        break 2;
+                    }
+                    break 1;
                 }
             }
         }
