@@ -1,6 +1,0 @@
-{
-    "name": "xxz291917/test",
-    "require": {
-        "monolog/monolog": "1.0.*"
-    }
-}
