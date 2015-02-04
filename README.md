@@ -1,4 +1,6 @@
 #用法
+    
+    include 'src/validator.php';
     $validator = new validator;
     $validator->rule('username', 'required')
             ->rule('username', array('minlength' => 4))
