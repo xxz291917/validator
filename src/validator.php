@@ -4,6 +4,7 @@
  * 数组变量验证类
  * 功能：对变量进行验证得到结果
  */
+include_once ('validatorLib.php');
 class validator
 {
 
@@ -27,7 +28,7 @@ class validator
             $valid_array = Ap_Registry::get('params');
         }
         $this->data = $valid_array;
-        $this->validator = new Elbc_validatorLib();
+        $this->validator = new validatorLib();
         //包含默认错误语言包赋值给_errorDefaultLangs
         $this->errorDefaultLangs = $this->validator->getErrorLang();
     }
